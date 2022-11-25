@@ -1,5 +1,6 @@
 # ThinkORM(nandiao fork修改版)
 修改内容
+* 添加对 close 与 clear 方法用于 swoole 多协程的内存释放 修改版本: v2.0.46
 * 添加对swoole多协程的支持 修改版本: v2.0.45
 * [修复在使用model时不能使用group方法的问题](https://github.com/top-think/think-orm/pull/300)
 

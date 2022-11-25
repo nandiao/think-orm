@@ -241,7 +241,38 @@ class DbManager
 
         return $this->instance[$uid][$name];
     }
+ /**
+     * 清理释放内存
+     * @access public
+     * @return void
+     */
+    public function clear(): void
+    {
+        $this->dbLog = [];
+        $this->cache = [];
+        $this->log = [];
+    }
 
+    /**
+     * 关闭数据库连接
+     * @access protected
+     * @param string|null $name  连接标识
+     * @param bool        $force 强制重新连接
+     * @return void
+     */
+    protected function close(): void
+    {
+        if (empty($name)) {
+            $name = $this->getConfig('default', 'mysql');
+        }
+        $uid = 0;
+        $CoroutineClassName = "Swoole\Coroutine";
+        if (class_exists($CoroutineClassName)) {
+            $uid = $CoroutineClassName::getcid();
+        }
+        $this->instance[$uid][$name]->close();
+        $this->instance[$uid] = null;
+    }
     /**
      * 获取连接配置
      * @param string $name
